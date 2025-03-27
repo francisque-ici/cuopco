@@ -4,17 +4,18 @@ using UnityEngine;
 
 public class CharacterBase : MonoBehaviour
 {
-    public int WalkSpeed;
+    public float WalkSpeed;
     public Vector3 MoveDirection;
 
     private Rigidbody rb;
     void Start()
     {
+        WalkSpeed = 7f;
         rb = transform.GetComponent<Rigidbody>();
     }
 
-    private void Move()
+    public void Move()
     {
-        rb.velocity = MoveDirection;
+        rb.velocity = MoveDirection*WalkSpeed;
     }
 }
