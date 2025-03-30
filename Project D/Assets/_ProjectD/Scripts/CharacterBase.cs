@@ -5,24 +5,15 @@ public class CharacterBase : MonoBehaviour
 {
     public float WalkSpeed;
     public Vector3 MoveDirection;
+    public bool isStunned = false;
 
     private Rigidbody rb;
-    private bool isStunned = false;
-
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         if (rb == null)
         {
             Debug.LogError($"{name} is missing a Rigidbody component!"); // Báo lỗi nếu không tìm thấy rigidbody
-        }
-    }
-
-    void FixedUpdate()
-    {
-        if (!isStunned)
-        {
-            Move();
         }
     }
 

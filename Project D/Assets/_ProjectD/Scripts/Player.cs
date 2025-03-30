@@ -7,6 +7,10 @@ public class Player : CharacterBase
     void FixedUpdate()
     {
         UpdateMoveDirection();
+        if (!isStunned)
+        {
+            Move();
+        }
     }
 
     void UpdateMoveDirection()
