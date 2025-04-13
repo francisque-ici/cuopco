@@ -3,17 +3,22 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - character
+  - flag
+  - obstacle
+  - attack
+  - banana
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - attack
   - Water
   - UI
-  - 
-  - 
-  - 
+  - obstacle
+  - character
+  - goal
   - 
   - 
   - 
