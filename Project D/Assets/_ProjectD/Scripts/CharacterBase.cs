@@ -6,35 +6,92 @@ public class CharacterBase : MonoBehaviour
     public float WalkSpeed;
     public Vector3 MoveDirection;
     public bool isStunned = false;
-
+    public float RotationSpeed;
     private Rigidbody rb;
+
+    [SerializeField] private Animator _animator;
+
+    // Dash settings
+    public float dashSpeed = 15f;
+    public float dashDuration = 0.2f;
+    public float dashCooldown = 1.5f;
+    private float lastDashTime = -Mathf.Infinity;
+    private bool isDashing = false;
+
     void Start()
     {
+        WalkSpeed = 7f;
+        RotationSpeed = 2f;
         rb = GetComponent<Rigidbody>();
         if (rb == null)
         {
-            Debug.LogError($"{name} is missing a Rigidbody component!"); // Báo lỗi nếu không tìm thấy rigidbody
+            Debug.LogError($"{name} is missing a Rigidbody component!");
         }
     }
 
     public void Move()
     {
-        rb.velocity = MoveDirection * WalkSpeed;
-    }
+        if (isStunned || isDashing) return;
 
-    public void Stun(float duration) // gọi hàm và chuyền vào duration (thời gian bị choáng)
-    {
-        if (!isStunned)
+        rb.velocity = MoveDirection * WalkSpeed;
+
+        if (MoveDirection.magnitude > 0f)
         {
-            StartCoroutine(StunCoroutine(duration)); // Tạo ra 1 nhánh xử lí khácác
+            Quaternion moveRotation = Quaternion.LookRotation(MoveDirection);
+            transform.rotation = Quaternion.Slerp(transform.rotation, moveRotation, RotationSpeed);
+            _animator.SetBool("isMove", true);
+        }
+        else
+        {
+            _animator.SetBool("isMove", false);
         }
     }
 
-    private IEnumerator StunCoroutine(float duration) // 1 Nhánh xử lí khác
+    public void Dash()
+    {
+        if (isDashing || isStunned || Time.time < lastDashTime + dashCooldown || MoveDirection.magnitude == 0)
+            return;
+
+        StartCoroutine(DashCoroutine());
+    }
+
+    private IEnumerator DashCoroutine()
+    {
+        isDashing = true;
+        lastDashTime = Time.time;
+
+        rb.velocity = MoveDirection.normalized * dashSpeed;
+
+        yield return new WaitForSeconds(dashDuration);
+
+        isDashing = false;
+    }
+
+    public void Stun(float duration)
+    {
+        Debug.Log("STUN");
+        if (!isStunned)
+        {
+            StartCoroutine(StunCoroutine(duration));
+        }
+    }
+
+    private IEnumerator StunCoroutine(float duration)
     {
         isStunned = true;
-        rb.velocity = Vector3.zero; // Ngừng di chuyển ngay lập tức
+        rb.velocity = Vector3.zero;
         yield return new WaitForSeconds(duration);
         isStunned = false;
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("banana"))
+        {
+            AudioManager.Instance.PlayFall();
+            Destroy(collision.gameObject);
+            _animator.Play("Fall");
+            Stun(1.25f);
+        }      
     }
 }
