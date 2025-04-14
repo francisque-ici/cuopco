@@ -37,8 +37,11 @@ public class CharacterBase : MonoBehaviour
 
         if (MoveDirection.magnitude > 0f)
         {
-            Quaternion moveRotation = Quaternion.LookRotation(MoveDirection);
-            transform.rotation = Quaternion.Slerp(transform.rotation, moveRotation, RotationSpeed);
+            if (WalkSpeed > 0)
+            {
+                Quaternion moveRotation = Quaternion.LookRotation(MoveDirection);
+                transform.rotation = Quaternion.Slerp(transform.rotation, moveRotation, RotationSpeed);
+            }
             _animator.SetBool("isMove", true);
         }
         else
@@ -57,6 +60,7 @@ public class CharacterBase : MonoBehaviour
 
     private IEnumerator DashCoroutine()
     {
+        AudioManager.Instance.Dash.Play();
         isDashing = true;
         lastDashTime = Time.time;
 
@@ -88,7 +92,7 @@ public class CharacterBase : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("banana"))
         {
-            AudioManager.Instance.PlayFall();
+            AudioManager.Instance.Fall.Play();
             Destroy(collision.gameObject);
             _animator.Play("Fall");
             Stun(1.25f);

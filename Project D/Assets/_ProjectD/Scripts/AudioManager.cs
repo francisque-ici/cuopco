@@ -8,6 +8,7 @@ public class AudioManager : MonoBehaviour
 
     public AudioSource Flag;
     public AudioSource Fall;
+    public AudioSource Dash;
 
     void Awake()
     {
@@ -16,15 +17,5 @@ public class AudioManager : MonoBehaviour
             Destroy(Instance);
         }
         Instance = this;
-    }
-
-    public void PlayFlag()
-    {
-        Flag.Play();
-    }
-    
-    public void PlayFall()
-    {
-        Fall.Play();
     }
 }

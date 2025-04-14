@@ -7,6 +7,7 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager Instance;
 
+    public GameObject Tutorial;
     public GameObject Menu;
     public Button Play;
     public GameObject Win;
@@ -42,6 +43,11 @@ public class UIManager : MonoBehaviour
         Menu.SetActive(false);
         Win.SetActive(false);
         Lose.SetActive(false);
+    }
+
+    public void OpenTutorial()
+    {
+        Tutorial.SetActive(true);
     }
 
     public void Count()

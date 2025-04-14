@@ -93,6 +93,8 @@ public class GameManager : MonoBehaviour
         Player.Instance.Enabled = true;
         Enemy.Instance.Enabled = true;
 
+        UIManager.Instance.OpenTutorial();
+
         gameState = GameState.Playing;
     }
 }

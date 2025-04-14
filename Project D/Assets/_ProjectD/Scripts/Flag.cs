@@ -21,7 +21,7 @@ public class Flag : MonoBehaviour
     {
         if (collider.CompareTag("character") && holder == null)
         {
-            AudioManager.Instance.PlayFlag();
+            AudioManager.Instance.Flag.Play();
             holder = collider.gameObject;
             transform.SetParent(collider.gameObject.transform.Find("FlagRoot"));
 
