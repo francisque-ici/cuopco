@@ -154,9 +154,9 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7702866818882478575}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 0.0000001
   m_Drag: 0
-  m_AngularDrag: 6
+  m_AngularDrag: 0
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -168,10 +168,10 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 112
+  m_Constraints: 80
   m_CollisionDetection: 0
 --- !u!114 &589126801239196384
 MonoBehaviour:
@@ -188,13 +188,13 @@ MonoBehaviour:
   WalkSpeed: 0
   MoveDirection: {x: 0, y: 0, z: 0}
   isStunned: 0
-  RotationSpeed: 0
+  RotationSpeed: 180
   _animator: {fileID: 209964106906279702}
   dashSpeed: 17.5
   dashDuration: 0.2
   dashCooldown: 1.5
   Enabled: 0
-  WalkSpeedRange: {x: 3, y: 7}
+  WalkSpeedRange: {x: 6, y: 11}
 --- !u!195 &9211555321580794906
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -205,14 +205,14 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 12
-  m_Acceleration: 1
-  avoidancePriority: 25
-  m_AngularSpeed: 360
+  m_Speed: 0
+  m_Acceleration: 0
+  avoidancePriority: 50
+  m_AngularSpeed: 0
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 0
-  m_AutoRepath: 1
+  m_AutoRepath: 0
   m_Height: 2
   m_BaseOffset: 0
   m_WalkableMask: 4294967295

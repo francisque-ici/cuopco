@@ -28,15 +28,18 @@ public class Enemy : CharacterBase
 
         agent = GetComponent<NavMeshAgent>();
 
+        WalkSpeed = 0;
         agent.speed = Random.Range(WalkSpeedRange.x, WalkSpeedRange.y);
+        agent.acceleration = agent.speed;
         agent.stoppingDistance = Random.Range(0, 4);
         agent.obstacleAvoidanceType = (ObstacleAvoidanceType)Random.Range(2, 5);
         agent.radius = Random.Range(1f, 2.5f);
+        agent.updateRotation = false;
 
         Debug.Log(agent.obstacleAvoidanceType);
     }
     
-    void FixedUpdate()
+    void LateUpdate()
     {
         if (GameManager.Instance.gameState == GameManager.GameState.GameOver)
         {
@@ -49,8 +52,8 @@ public class Enemy : CharacterBase
         if (Enabled == false) return;
         if (Flag.Instance == null) return;
 
-        if (Time.time < nextUpdateTime) return;
-        nextUpdateTime = Time.time + updateInterval;
+        //if (Time.time < nextUpdateTime) return;
+        //nextUpdateTime = Time.time + updateInterval;
 
         if (Flag.Instance.holder == null)
         {
@@ -63,14 +66,16 @@ public class Enemy : CharacterBase
         else if (Flag.Instance.holder == Player.Instance.gameObject)
         {
             agent.stoppingDistance = 0;
-            Target = Player.Instance.gameObject;
+            Target = Flag.Instance.gameObject;
+            //Target = Player.Instance.gameObject;
         }
 
         if (!isStunned)
         {
             MoveDirection = agent.desiredVelocity.normalized;
             agent.SetDestination(Target.transform.position);
-            Move();
+            Animate();
+            Rotate();
         }
         else
         {

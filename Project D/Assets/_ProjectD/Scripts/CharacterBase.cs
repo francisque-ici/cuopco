@@ -34,20 +34,21 @@ public class CharacterBase : MonoBehaviour
         if (isStunned || isDashing) return;
 
         rb.velocity = MoveDirection * WalkSpeed;
+    }
 
-        if (MoveDirection.magnitude > 0f)
+    public void Rotate()
+    {
+        if (MoveDirection.magnitude > 0.1f)
         {
-            if (WalkSpeed > 0)
-            {
-                Quaternion moveRotation = Quaternion.LookRotation(MoveDirection);
-                transform.rotation = Quaternion.Slerp(transform.rotation, moveRotation, RotationSpeed);
-            }
-            _animator.SetBool("isMove", true);
+            Quaternion moveRotation = Quaternion.LookRotation(MoveDirection);
+            transform.rotation = Quaternion.Slerp(transform.rotation, moveRotation, RotationSpeed);
         }
-        else
-        {
-            _animator.SetBool("isMove", false);
-        }
+    }
+
+    public void Animate()
+    {
+        if (MoveDirection.magnitude == 0) _animator.SetBool("isMove", false);
+        else _animator.SetBool("isMove", true);
     }
 
     public void Dash()
