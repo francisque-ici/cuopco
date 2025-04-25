@@ -24,8 +24,8 @@ public class Player : CharacterBase
         if (!isStunned)
         {
             Move();
-            Animate();
             Rotate();
+            Animate();
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 Dash();

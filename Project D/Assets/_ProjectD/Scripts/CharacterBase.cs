@@ -17,11 +17,11 @@ public class CharacterBase : MonoBehaviour
     public float dashCooldown = 1.5f;
     private float lastDashTime = -Mathf.Infinity;
     private bool isDashing = false;
+    private int state = 0;
+
 
     void Start()
     {
-        WalkSpeed = 7f;
-        RotationSpeed = 2f;
         rb = GetComponent<Rigidbody>();
         if (rb == null)
         {
@@ -38,17 +38,27 @@ public class CharacterBase : MonoBehaviour
 
     public void Rotate()
     {
-        if (MoveDirection.magnitude > 0.1f)
+        if (MoveDirection.sqrMagnitude > 0.01f)
         {
             Quaternion moveRotation = Quaternion.LookRotation(MoveDirection);
-            transform.rotation = Quaternion.Slerp(transform.rotation, moveRotation, RotationSpeed);
+            transform.rotation = Quaternion.Slerp(transform.rotation, moveRotation, RotationSpeed * Time.deltaTime);
         }
     }
 
     public void Animate()
     {
-        if (MoveDirection.magnitude == 0) _animator.SetBool("isMove", false);
-        else _animator.SetBool("isMove", true);
+        if (MoveDirection.magnitude == 0)
+        {
+            if (state == 0) return;
+            state = 0;
+            _animator.SetBool("isMove", false);
+        }
+        else
+        {
+            if (state == 1) return;
+            state = 1;
+            _animator.SetBool("isMove", true);
+        }
     }
 
     public void Dash()

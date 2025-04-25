@@ -1,8 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
-using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
@@ -28,13 +23,12 @@ public class Enemy : CharacterBase
 
         agent = GetComponent<NavMeshAgent>();
 
-        WalkSpeed = 0;
-        agent.speed = Random.Range(WalkSpeedRange.x, WalkSpeedRange.y);
-        agent.acceleration = agent.speed;
-        agent.stoppingDistance = Random.Range(0, 4);
-        agent.obstacleAvoidanceType = (ObstacleAvoidanceType)Random.Range(2, 5);
-        agent.radius = Random.Range(1f, 2.5f);
+        WalkSpeed = Random.Range(WalkSpeedRange.x, WalkSpeedRange.y);
+
+        agent.obstacleAvoidanceType = (ObstacleAvoidanceType)Random.Range(0, 4);
+
         agent.updateRotation = false;
+        agent.updatePosition = false;
 
         Debug.Log(agent.obstacleAvoidanceType);
     }
@@ -67,20 +61,23 @@ public class Enemy : CharacterBase
         {
             agent.stoppingDistance = 0;
             Target = Flag.Instance.gameObject;
-            //Target = Player.Instance.gameObject;
         }
 
-        if (!isStunned)
+        NavMeshPath navPath = new NavMeshPath();
+        if (NavMesh.CalculatePath(transform.position, Target.transform.position, NavMesh.AllAreas, navPath))
         {
-            MoveDirection = agent.desiredVelocity.normalized;
-            agent.SetDestination(Target.transform.position);
-            Animate();
-            Rotate();
-        }
-        else
-        {
-            MoveDirection = Vector3.zero;
-            agent.ResetPath();
+            if (navPath.corners.Length > 1)
+            {
+                Vector3 direction = navPath.corners[1] - transform.position;
+                direction.y = 0;
+                MoveDirection = direction.normalized;
+
+                agent.nextPosition = transform.position;
+
+                Move();
+                Rotate();
+                Animate();
+            }
         }
     }
 
