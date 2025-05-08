@@ -85,7 +85,20 @@ public class Enemy : CharacterBase
     {
         if (collider.CompareTag("attack") && collider != gameObject && Flag.Instance.holder == gameObject)
         {
+            if (GameManager.Instance.gameState != GameManager.GameState.Playing) return;
             GameManager.Instance.OnGameEnded(true);
         }    
+        else if (collider.CompareTag("mud"))
+        {
+            WalkSpeedMultiply = 0.5f;
+        }
+    }
+
+    void OnTriggerExit(Collider collider)
+    {
+        if (collider.CompareTag("mud"))
+        {
+            WalkSpeedMultiply = 1f;
+        }
     }
 }

@@ -4,7 +4,9 @@ using UnityEngine;
 public class CharacterBase : MonoBehaviour
 {
     public float WalkSpeed;
+    public float WalkSpeedMultiply = 1f;
     public Vector3 MoveDirection;
+    public Vector3 LastMoveDirection;
     public bool isStunned = false;
     public float RotationSpeed;
     private Rigidbody rb;
@@ -33,7 +35,7 @@ public class CharacterBase : MonoBehaviour
     {
         if (isStunned || isDashing) return;
 
-        rb.velocity = MoveDirection * WalkSpeed;
+        rb.velocity = MoveDirection * WalkSpeed * WalkSpeedMultiply;
     }
 
     public void Rotate()
@@ -61,12 +63,13 @@ public class CharacterBase : MonoBehaviour
         }
     }
 
-    public void Dash()
+    public bool Dash()
     {
-        if (isDashing || isStunned || Time.time < lastDashTime + dashCooldown || MoveDirection.magnitude == 0)
-            return;
+        if (isDashing || isStunned || Time.time < lastDashTime + dashCooldown)
+            return false;
 
         StartCoroutine(DashCoroutine());
+        return true;
     }
 
     private IEnumerator DashCoroutine()
@@ -75,7 +78,7 @@ public class CharacterBase : MonoBehaviour
         isDashing = true;
         lastDashTime = Time.time;
 
-        rb.velocity = MoveDirection.normalized * dashSpeed;
+        rb.velocity = LastMoveDirection.normalized * dashSpeed;
 
         yield return new WaitForSeconds(dashDuration);
 
@@ -107,6 +110,6 @@ public class CharacterBase : MonoBehaviour
             Destroy(collision.gameObject);
             _animator.Play("Fall");
             Stun(1.25f);
-        }      
+        } 
     }
 }

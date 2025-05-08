@@ -57,7 +57,11 @@ public class ObstacleSpawner : MonoBehaviour
                 {
                     GameObject newObstacle = Instantiate(randomObstacleTemplate, spawnPos, Quaternion.identity, ObstacleContainer.transform);
                     newObstacle.SetActive(true);
-                    newObstacle.GetComponent<NavMeshObstacle>().radius = Random.Range(0.4f, 0.9f);
+
+                    if (!newObstacle.CompareTag("mud"))
+                    {
+                        newObstacle.GetComponent<NavMeshObstacle>().radius = Random.Range(0.4f, 0.9f);
+                    }
 
                     spawnedPositions.Add(spawnPos);
                     spawnedCount++;

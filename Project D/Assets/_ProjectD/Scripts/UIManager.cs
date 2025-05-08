@@ -1,20 +1,31 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.ExceptionServices;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
     public static UIManager Instance;
-
     public GameObject Tutorial;
+    public GameObject Control;
+    public GameObject MobileControl;
+    public GameObject Dash;
+    public Image DashCountdown;
     public GameObject Menu;
     public Button Play;
     public GameObject Win;
-    public Button Win_Play;
     public GameObject Lose;
-    public Button Lose_Play;
+    public GameObject RoundWin;
+    public GameObject RoundLose;
     public GameObject Counter;
+    public GameObject ScoreUI;
+    public Transform PlayeScoreUI;
+    public Transform EnemyScoreUI;
+    public Texture FilledRedScore;
+    public Texture FilledBlueScore;
+    public Texture EmptyScore;
+    
 
     void Awake()
     {
@@ -38,6 +49,16 @@ public class UIManager : MonoBehaviour
         Lose.SetActive(true);
     }
 
+    public void OpenWinRound()
+    {
+        RoundWin.SetActive(true);
+    }
+
+    public void OpenLoseRound()
+    {
+        RoundLose.SetActive(true);
+    }
+
     public void Clear()
     {
         Menu.SetActive(false);
@@ -45,9 +66,45 @@ public class UIManager : MonoBehaviour
         Lose.SetActive(false);
     }
 
+    public void OpenControl()
+    {
+        Control.SetActive(true);
+        if (GameManager.Instance.isMobile)
+        {
+            MobileControl.SetActive(true);
+        }
+    }
+
     public void OpenTutorial()
     {
         Tutorial.SetActive(true);
+    }
+
+    public void OpenScore()
+    {
+        ScoreUI.SetActive(true);
+    }
+
+    public void UpdateScore(int playerScore, int enemyScore)
+    {
+        foreach (Transform scoreBox in PlayeScoreUI)
+        {
+            if (playerScore > 0)
+            {
+                scoreBox.GetComponent<RawImage>().texture = FilledBlueScore;
+                playerScore--;
+            }
+            else scoreBox.GetComponent<RawImage>().texture = EmptyScore;
+        }
+        foreach (Transform scoreBox in EnemyScoreUI)
+        {
+            if (enemyScore > 0)
+            {
+                scoreBox.GetComponent<RawImage>().texture = FilledRedScore;
+                enemyScore--;
+            }
+            else scoreBox.GetComponent<RawImage>().texture = EmptyScore;
+        }
     }
 
     public void Count()
@@ -56,73 +113,27 @@ public class UIManager : MonoBehaviour
         Counter.SetActive(true);
     }
 
-    void OnPlayButton()
+    public void OnDashCountdown(float duration)
     {
-        Debug.Log("PRESSED PLAY");
-        GameManager.Instance.StartNewGame();
+        StartCoroutine(DashCountdownRoutine(duration - 0.05f));
     }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// Start is called before the first frame update
-    /*public GameObject TitleScreen;
-    public GameObject GameOver;
-    public GameObject win;
-    public GameObject lose;
-    public GameObject start;
-    public GameObject restart;
-    void Start()
+    
+    private IEnumerator DashCountdownRoutine(float duration)
     {
-        start.GetComponent<Button>().onClick.AddListener(OnStartClicked);
-        restart.GetComponent<Button>().onClick.AddListener(OnRestartClicked);
-        GameOver.SetActive(false);
-        TitleScreen.SetActive(true);
-        win.SetActive(false);
-        lose.SetActive(false);
-    }
-    public void OnStartClicked()
-    {
-        TitleScreen.SetActive(false);
-        FindObjectOfType<GameManager>().StartNewGame();
-    }
-    public void ShowGameOver(bool isWin)
-    {
-        GameOver.SetActive(true);
-        win.SetActive(isWin);
-        lose.SetActive(!isWin);
-    }
-    public void OnRestartClicked()
-    {
-        GameOver.SetActive(false);
-        win.SetActive(false);
-        lose.SetActive(false);
-        FindObjectOfType<GameManager>().StartNewGame();
-    }
-
-    void Update()
-    {
+        if (DashCountdown == null) yield break;
+    
+        DashCountdown.gameObject.SetActive(true);
         
-    }*/
+        float timer = 0f;
+        while (timer < duration)
+        {
+            timer += Time.deltaTime;
+            DashCountdown.fillAmount = Mathf.Lerp(1f, 0f, timer / duration);
+            yield return null;
+        }
+    
+        DashCountdown.fillAmount = 0f;
+        DashCountdown.gameObject.SetActive(false);
+    }
 
-
-//Menu
-//PlayButton
-//Win
-//Win_PlayAgainButton
-//Lose
-//Lose_PlayAgainButton
+}

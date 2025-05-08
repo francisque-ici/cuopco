@@ -17,6 +17,7 @@ public class PlayerGoal : MonoBehaviour
 
     void OnTriggerEnter(Collider collider)
     {
+        if (GameManager.Instance.gameState != GameManager.GameState.Playing) return;
         if (Player.Instance == null && Flag.Instance == null) return;
         if (collider.CompareTag("character") && collider.gameObject == Player.Instance.gameObject && collider.gameObject == Flag.Instance.holder)
         {

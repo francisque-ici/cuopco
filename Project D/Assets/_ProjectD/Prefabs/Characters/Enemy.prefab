@@ -187,14 +187,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WalkSpeed: 0
   MoveDirection: {x: 0, y: 0, z: 0}
+  LastMoveDirection: {x: 0, y: 0, z: 0}
   isStunned: 0
   RotationSpeed: 180
   _animator: {fileID: 209964106906279702}
-  dashSpeed: 17.5
+  dashSpeed: 12
   dashDuration: 0.2
-  dashCooldown: 1.5
+  dashCooldown: 1
   Enabled: 0
-  WalkSpeedRange: {x: 5.5, y: 10}
+  WalkSpeedRange: {x: 4.5, y: 5.5}
+  wanderStepDistance: 10
+  destinationThreshold: 1
+  repathTime: 1.5
 --- !u!195 &9211555321580794906
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -225,10 +229,40 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 8569896609823226890}
     m_Modifications:
+    - target: {fileID: 2329037797177577342, guid: 3e4387e8c46fad946a4f86501676e4f3,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2329037797177577342, guid: 3e4387e8c46fad946a4f86501676e4f3,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2329037797177577342, guid: 3e4387e8c46fad946a4f86501676e4f3,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.6
+      objectReference: {fileID: 0}
     - target: {fileID: 3993911593460191752, guid: 3e4387e8c46fad946a4f86501676e4f3,
         type: 3}
       propertyPath: m_ApplyRootMotion
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7029298488546396274, guid: 3e4387e8c46fad946a4f86501676e4f3,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 9.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7029298488546396274, guid: 3e4387e8c46fad946a4f86501676e4f3,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 9.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7029298488546396274, guid: 3e4387e8c46fad946a4f86501676e4f3,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 9.5
       objectReference: {fileID: 0}
     - target: {fileID: 7029298488546396274, guid: 3e4387e8c46fad946a4f86501676e4f3,
         type: 3}

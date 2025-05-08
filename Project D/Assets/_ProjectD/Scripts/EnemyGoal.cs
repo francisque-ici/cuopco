@@ -19,8 +19,8 @@ public class EnemyGoal : MonoBehaviour
 
     void OnTriggerEnter(Collider collider)
     {
+        if (GameManager.Instance.gameState != GameManager.GameState.Playing) return;
         if (Enemy.Instance == null && Flag.Instance == null) return;
-        Debug.Log(collider.CompareTag("character"));
         if (collider.CompareTag("character") && collider.gameObject == Enemy.Instance.gameObject && collider.gameObject == Flag.Instance.holder)
         {
             GameManager.Instance.OnGameEnded(false);
