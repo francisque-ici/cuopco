@@ -186,6 +186,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WalkSpeed: 0
+  WalkSpeedMultiply: 1
   MoveDirection: {x: 0, y: 0, z: 0}
   LastMoveDirection: {x: 0, y: 0, z: 0}
   isStunned: 0
@@ -195,10 +196,7 @@ MonoBehaviour:
   dashDuration: 0.2
   dashCooldown: 1
   Enabled: 0
-  WalkSpeedRange: {x: 4.5, y: 5.5}
-  wanderStepDistance: 10
-  destinationThreshold: 1
-  repathTime: 1.5
+  WalkSpeedRange: {x: 4.5, y: 5.2}
 --- !u!195 &9211555321580794906
 NavMeshAgent:
   m_ObjectHideFlags: 0

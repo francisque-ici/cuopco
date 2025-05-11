@@ -9,6 +9,7 @@ TagManager:
   - obstacle
   - attack
   - banana
+  - mud
   layers:
   - Default
   - TransparentFX
